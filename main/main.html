@@ -6,15 +6,12 @@
   <title>나무위키 스타일 위키</title>
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="/sidebar/css/sidebar.css" />
+  <link rel="stylesheet" href="/recent/css/recent.css" />
 </head>
 <body>
 
   <div class="top-right-controls">
-    <input type="text" id="search" placeholder="🔍 문서 제목을 입력하세요" />
-    <div class="buttons">
-      <button onclick="goToList()">📚 문서 목록</button>
-      <button onclick="goToEditor()">✏️ 새 문서 작성</button>
-    </div>
+    <div id="recent-container"></div>
   </div>
 
   <main>
@@ -89,7 +86,6 @@
               <p>최근 수정 시각: 2023-12-15 14:30:45</p>
             </div>
           </article>
-
           <div class="recent-changes">
             <h2 class="recent-title">최근 변경된 문서</h2>
             <ul class="recent-list"></ul> <!-- main.js에서 채워집니다 -->
@@ -114,5 +110,19 @@
 
   <script src="js/main.js"></script>
   <script src="/sidebar/js/sidebar.js"></script>
+  <script>
+    fetch('/sidebar/sidebar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar-container').innerHTML = html;
+      });
+  </script>
+  <script>
+    fetch('/recent/recent.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('recent-container').innerHTML = html;
+      });
+  </script>
 </body>
 </html>
