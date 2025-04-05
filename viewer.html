@@ -84,6 +84,7 @@
   <div>
     <button id="edit-button" onclick="goToEditor()">✏️ 수정하기</button>
     <button id="delete-button" onclick="deleteDoc()">🗑️ 삭제하기</button>
+    <button id="list-button" onclick="goToList()">📚 목록으로</button>
   </div>
   <div id="doc-title">제목을 불러오는 중...</div>
   <div id="preview"></div>
@@ -170,6 +171,9 @@
       alert('삭제 중 오류가 발생했습니다.');
       console.error(err);
     });
+  }
+  function goToList() {
+    window.location.href = 'list.html';
   }
 
   loadDocument();
