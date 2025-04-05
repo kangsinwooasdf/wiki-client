@@ -5,16 +5,19 @@
   <title>문서 작성 | 나무위키 스타일</title>
   <style>
     body { font-family: 'Noto Sans KR', sans-serif; padding: 30px; background: #f6f6f6; }
-    textarea {
+    input, textarea {
       width: 100%;
-      height: 500px;
-      padding: 20px;
+      padding: 12px;
+      margin-bottom: 20px;
       font-size: 16px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 400px;
       resize: vertical;
     }
     button {
-      margin-top: 20px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
@@ -24,7 +27,8 @@
 <body>
 
 <h1>문서 작성</h1>
-<textarea id="editor" placeholder="# 제목을 입력하세요..."></textarea><br>
+<input type="text" id="title" placeholder="제목을 입력하세요" />
+<textarea id="editor" placeholder="# 내용을 입력하세요..."></textarea><br>
 <button onclick="saveDocument()">💾 저장하고 보기</button>
 
 <script>
@@ -32,20 +36,22 @@
   const params = new URLSearchParams(window.location.search);
   const docId = params.get('id');
 
-  // 문서 수정이면 기존 내용 불러오기
+  // 수정 모드: 기존 제목 + 내용 불러오기
   if (docId) {
     fetch(`${baseURL}/documents/${docId}`)
       .then(res => res.json())
       .then(data => {
+        document.getElementById('title').value = data.title || '';
         document.getElementById('editor').value = data.content || '';
       })
       .catch(err => {
-        alert('문서를 불러오지 못했습니다.');
+        alert('문서를 불러오는 데 실패했습니다.');
         console.error(err);
       });
   }
 
   async function saveDocument() {
+    const title = document.getElementById('title').value;
     const content = document.getElementById('editor').value;
 
     try {
@@ -56,7 +62,7 @@
         response = await fetch(`${baseURL}/documents/${docId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content })
+          body: JSON.stringify({ title, content })
         });
         data = { id: docId };
       } else {
@@ -64,14 +70,14 @@
         response = await fetch(`${baseURL}/documents`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content })
+          body: JSON.stringify({ title, content })
         });
         data = await response.json();
       }
 
       window.location.href = `viewer.html?id=${data.id}`;
     } catch (error) {
-      alert('문서를 저장하지 못했습니다.');
+      alert('문서를 저장하는 데 실패했습니다.');
       console.error(error);
     }
   }
