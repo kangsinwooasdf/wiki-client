@@ -1,5 +1,11 @@
 const baseURL = 'https://wiki-b.glitch.me';
 
+fetch('/recent/recent.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('recent-container').innerHTML = html;
+      });
+      
 async function loadRecentChanges() {
   try {
     const res = await fetch(`${baseURL}/documents`);

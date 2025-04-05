@@ -1,3 +1,9 @@
+fetch('/sidebar/sidebar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar-container').innerHTML = html;
+      });
+
 function toggleDropdown() {
   const menu = document.getElementById("dropdownMenu");
   menu.classList.toggle("show");

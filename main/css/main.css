@@ -23,12 +23,6 @@ a:hover {
     text-decoration: underline;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
 /* 오른쪽 상단 고정 */
 .top-right-controls {
     position: fixed;
@@ -285,31 +279,6 @@ main .container>p {
     margin-left: 0.5rem;
     font-size: 0.75rem;
     color: #718096;
-}
-
-/* Footer styles */
-footer {
-    background-color: white;
-    border-top: 1px solid #e2e8f0;
-    padding: 1.5rem 0;
-    text-align: center;
-    width: 100%;
-}
-
-.footer-text {
-    font-size: 0.875rem;
-    color: #718096;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-.footer-link {
-    font-size: 0.875rem;
 }
 
 /* Original styles from user's CSS */
