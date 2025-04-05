@@ -40,7 +40,7 @@ async function saveDocument() {
             });
             data = await response.json();
         }
-        window.location.href = `index.html?id=${data.id}`;
+        window.location.href = `../index/index.html?id=${data.id}`;
     } catch (err) {
         alert('문서를 저장하는 데 실패했습니다.');
         console.error(err);
