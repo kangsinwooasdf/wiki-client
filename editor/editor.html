@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <title>문서 작성 | 나무위키 스타일</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/editor.css">
 </head>
+
 <body>
 
   <h1>문서 작성</h1>
   <input type="text" id="title" placeholder="제목을 입력하세요" />
-  <textarea id="editor" placeholder="# 내용을 입력하세요..."></textarea><br>
+
+  <div id="editor-container">
+    <div id="line-numbers">1</div>
+    <div id="editor" contenteditable="true" spellcheck="false"></div>
+  </div>
+
+  <br>
   <button onclick="saveDocument()">💾 저장하고 보기</button>
 
-  <script src="js/script.js"></script>
+
+  <script src="js/editor.js"></script>
 </body>
+
 </html>
