@@ -28,15 +28,52 @@
 <button onclick="saveDocument()">💾 저장하고 보기</button>
 
 <script>
+  const baseURL = 'https://wiki-b.glitch.me';
+  const params = new URLSearchParams(window.location.search);
+  const docId = params.get('id');
+
+  // 문서 수정 시 기존 내용 불러오기
+  if (docId) {
+    fetch(`${baseURL}/documents/${docId}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('editor').value = data.content || '';
+      })
+      .catch(err => {
+        alert('문서를 불러오는 데 실패했습니다.');
+        console.error(err);
+      });
+  }
+
   async function saveDocument() {
     const content = document.getElementById('editor').value;
-    const response = await fetch('https://wiki-b.glitch.me/documents', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content })
-    });
-    const data = await response.json();
-    window.location.href = `viewer.html?id=${data.id}`;
+
+    try {
+      let response, data;
+
+      if (docId) {
+        // 기존 문서 수정
+        response = await fetch(`${baseURL}/documents/${docId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content })
+        });
+        data = { id: docId }; // 이미 알고 있음
+      } else {
+        // 새 문서 생성
+        response = await fetch(`${baseURL}/documents`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content })
+        });
+        data = await response.json();
+      }
+
+      window.location.href = `viewer.html?id=${data.id}`;
+    } catch (error) {
+      alert('저장 중 오류가 발생했습니다.');
+      console.error(error);
+    }
   }
 </script>
 
