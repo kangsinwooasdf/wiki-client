@@ -1,9 +1,9 @@
 function goToList() {
-    window.location.href = '/list/list.html'; // 문서 목록
+    window.location.href = '/list/list.html';
 }
 
 function goToEditor() {
-    window.location.href = '/editor/editor.html'; // 새 문서 작성
+    window.location.href = '/editor/editor.html';
 }
 
 document.getElementById('search').addEventListener('keydown', function (e) {
