@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>나무위키 스타일 위키</title>
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="/sidebar/css/sidebar.css" />
 </head>
 <body>
 
@@ -18,23 +19,10 @@
 
   <main>
     <div class="container">
+      <aside class="sidebar" id="sidebar-container"></aside>
       <h1>🌿 구츠위키</h1>
       <p>여기는 누구나 자유롭게 문서를 작성하고 열람할 수 있는 위키입니다.</p>
       <div class="main-grid">
-        <aside class="sidebar">
-          <nav class="sidebar-nav">
-            <div class="sidebar-heading">둘러보기</div>
-            <a href="#" class="sidebar-link">대문</a>
-            <a href="#" class="sidebar-link">최근 변경</a>
-            <a href="#" class="sidebar-link">요청된 문서</a>
-            <a href="#" class="sidebar-link">임의 문서</a>
-            <div class="sidebar-heading">도구</div>
-            <a href="#" class="sidebar-link">특수 문서</a>
-            <a href="#" class="sidebar-link">고급 검색</a>
-            <a href="#" class="sidebar-link">파일 올리기</a>
-          </nav>
-        </aside>
-
         <div class="content">
           <article class="article-container">
             <div class="article-header">
@@ -59,14 +47,14 @@
                 <h2 class="section-title">구츠위키 게시판</h2>
                 <div id="ancient" class="subsection">
                   <div class="footer-text">
-                    <a href="#" class="footer-text">공지</a>
-                    <a href="#" class="footer-text">신고</a>
-                    <a href="#" class="footer-text">편집 요청</a>
-                    <a href="#" class="footer-text">차단 소명/해제 요청</a>
-                    <a href="#" class="footer-text">토론 문의</a>
+                    <a href="#" class="footer-link">공지</a> ·
+                    <a href="#" class="footer-link">신고</a> ·
+                    <a href="#" class="footer-link">편집 요청</a> ·
+                    <a href="#" class="footer-link">차단 소명/해제 요청</a> ·
+                    <a href="#" class="footer-link">토론 문의</a>
                   </div>
                 </div>
-              </section>
+              </section>              
 
               <section id="geography" class="section">
                 <h2 class="section-title">3. 지리</h2>
@@ -136,13 +124,14 @@
     <div class="container">
       <p class="footer-text">© 2025 구츠위키. 이 사이트는 다방면 목적으로 제작되었습니다.</p>
       <div class="footer-text">
-        <a href="#" class="footer-text">개발자:</a>
-        <a href="#" class="footer-text">BEOBMA</a>
-        <a href="#" class="footer-text">kangsinwooasdf</a>
+        <class="footer-text">개발자:</a>
+        <a href="https://github.com/BEOBMA" class="footer-text">BEOBMA</a>
+        <a href="https://github.com/kangsinwooasdf" class="footer-text">kangsinwooasdf</a>
       </div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="/sidebar/js/sidebar.js"></script>
 </body>
 </html>
