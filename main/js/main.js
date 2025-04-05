@@ -1,5 +1,5 @@
 function goToList() {
-    window.location.href = '../index/index.html'; // 문서 목록
+    window.location.href = '../list/list.html'; // 문서 목록
 }
 
 function goToEditor() {
