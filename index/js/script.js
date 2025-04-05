@@ -63,7 +63,7 @@ function goToEditor() {
   if (currentId) {
     window.location.href = `editor.html?id=${currentId}`;
   } else {
-    window.location.href = '../editor/editor.html';
+    window.location.href = '/editor/editor.html';
   }
 }
 
@@ -81,7 +81,7 @@ function deleteDoc() {
 }
 
 function goToList() {
-  window.location.href = '../list/list.html';
+  window.location.href = '/list/list.html';
 }
 
 loadDocument();

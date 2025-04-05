@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>나무위키 스타일 위키</title>
   <link rel="stylesheet" href="css/main.css" />
 </head>
-
 <body>
 
-  <div class="container">
-    <h1>🌿 나무위키 클론</h1>
-    <p>여기는 누구나 자유롭게 문서를 작성하고 열람할 수 있는 위키입니다.</p>
-
+  <div class="top-right-controls">
     <input type="text" id="search" placeholder="🔍 문서 제목을 입력하세요" />
     <div class="buttons">
       <button onclick="goToList()">📚 문서 목록</button>
@@ -20,7 +16,133 @@
     </div>
   </div>
 
+  <main>
+    <div class="container">
+      <h1>🌿 구츠위키</h1>
+      <p>여기는 누구나 자유롭게 문서를 작성하고 열람할 수 있는 위키입니다.</p>
+      <div class="main-grid">
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="sidebar-heading">둘러보기</div>
+            <a href="#" class="sidebar-link">대문</a>
+            <a href="#" class="sidebar-link">최근 변경</a>
+            <a href="#" class="sidebar-link">요청된 문서</a>
+            <a href="#" class="sidebar-link">임의 문서</a>
+            <div class="sidebar-heading">도구</div>
+            <a href="#" class="sidebar-link">특수 문서</a>
+            <a href="#" class="sidebar-link">고급 검색</a>
+            <a href="#" class="sidebar-link">파일 올리기</a>
+          </nav>
+        </aside>
+
+        <div class="content">
+          <article class="article-container">
+            <div class="article-header">
+              <h1 class="article-title">구츠위키</h1>
+            </div>
+
+            <div class="article-content">
+              <section id="intro" class="section">
+                <h2 class="section-title">여러분이 가꾸어 나가는 구츠의 나무</h2>
+                  <div class="article-text-container">
+                    <p class="article-text">
+                      구츠위키에 오신 것을 환영합니다!
+                    </p>
+                    <p class="article-text">
+                      구츠위키는 누구나 기여할 수 있는 위키입니다.
+                      검증되지 않았거나 편향된 내용이 있을 수 있습니다.
+                    </p>
+                  </div>
+              </section>
+
+              <section id="noticeboard" class="section">
+                <h2 class="section-title">구츠위키 게시판</h2>
+                <div id="ancient" class="subsection">
+                  <div class="footer-text">
+                    <a href="#" class="footer-text">공지</a>
+                    <a href="#" class="footer-text">신고</a>
+                    <a href="#" class="footer-text">편집 요청</a>
+                    <a href="#" class="footer-text">차단 소명/해제 요청</a>
+                    <a href="#" class="footer-text">토론 문의</a>
+                  </div>
+                </div>
+              </section>
+
+              <section id="geography" class="section">
+                <h2 class="section-title">3. 지리</h2>
+                <p class="article-text">
+                  대한민국은 한반도 남부에 위치하며, 국토의 약 70%가 산지로 이루어져 있다. 
+                  주요 산맥으로는 백두대간이 있으며, 주요 강으로는 한강, 낙동강, 금강, 영산강, 섬진강 등이 있다. 
+                  사계절이 뚜렷한 온대 기후를 가지고 있으며, 여름에는 무더운 날씨와 장마, 
+                  겨울에는 춥고 건조한 날씨가 특징이다.
+                </p>
+              </section>
+
+              <section id="culture" class="section">
+                <h2 class="section-title">4. 문화</h2>
+                <p class="article-text">
+                  대한민국은 유교, 불교, 도교 등의 영향을 받은 전통 문화와 현대 문화가 공존하는 나라이다. 
+                  한글, 한복, 한식, 한옥 등의 전통 문화유산을 보유하고 있으며, 
+                  최근에는 K-Pop, K-Drama 등의 한류 문화가 세계적으로 인기를 끌고 있다.
+                </p>
+              </section>
+
+              <section id="references" class="section">
+                <h2 class="section-title">5. 참고 문헌</h2>
+                <ul class="reference-list">
+                  <li class="reference-item">한국사 개론 (2020), 김영사</li>
+                  <li class="reference-item">대한민국 통계청 (2023), 인구통계</li>
+                  <li class="reference-item">한국의 지리와 문화 (2019), 서울대학교 출판부</li>
+                </ul>
+              </section>
+            </div>
+
+            <div class="article-footer">
+              <p>최근 수정 시각: 2023-12-15 14:30:45</p>
+            </div>
+          </article>
+
+          <div class="recent-changes">
+            <h2 class="recent-title">최근 변경된 문서</h2>
+            <ul class="recent-list">
+              <li class="recent-item">
+                <a href="#">2024 프로야구</a>
+                <span class="recent-time">10분 전</span>
+              </li>
+              <li class="recent-item">
+                <a href="#">인공지능</a>
+                <span class="recent-time">32분 전</span>
+              </li>
+              <li class="recent-item">
+                <a href="#">서울특별시</a>
+                <span class="recent-time">1시간 전</span>
+              </li>
+              <li class="recent-item">
+                <a href="#">BTS</a>
+                <span class="recent-time">2시간 전</span>
+              </li>
+              <li class="recent-item">
+                <a href="#">코로나19</a>
+                <span class="recent-time">3시간 전</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer-text">© 2025 구츠위키. 이 사이트는 다방면 목적으로 제작되었습니다.</p>
+      <div class="footer-text">
+        <a href="#" class="footer-text">개발자:</a>
+        <a href="#" class="footer-text">BEOBMA</a>
+        <a href="#" class="footer-text">kangsinwooasdf</a>
+      </div>
+    </div>
+  </footer>
+
   <script src="js/main.js"></script>
 </body>
-
 </html>
