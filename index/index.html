@@ -1,32 +1,60 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
-  <title>문서 보기 | 나무위키 스타일</title>
-  <meta rel="stylesheet" href="css/style.css;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문서 보기 | 구츠위키</title>
+  <link rel="stylesheet" href="/main/css/main.css" />
+  <link rel="stylesheet" href="/sidebar/css/sidebar.css" />
 </head>
-
 <body>
 
-  <div id="sidebar">
-    <h2>목차</h2>
-    <ul id="toc"></ul>
+  <!-- 상단 고정 컨트롤 -->
+  <div class="top-right-controls">
+    <input type="text" id="search" placeholder="🔍 문서 제목을 입력하세요" />
+    <div class="buttons">
+      <button onclick="goToList()">📚 문서 목록</button>
+      <button onclick="goToEditor()">✏️ 새 문서 작성</button>
+    </div>
   </div>
 
+  <main>
+    <div class="container">
+      <aside class="sidebar" id="sidebar-container"></aside>
 
-  <div id="content">
-    <div id="content">
-      <div>
-        <button id="edit-button" onclick="goToEditor()">✏️ 수정하기</button>
-        <button id="delete-button" onclick="deleteDoc()">🗑️ 삭제하기</button>
-        <button id="list-button" onclick="goToList()">📚 목록으로</button>
+      <div class="main-grid">
+        <div class="content">
+          <article class="article-container">
+            <div class="article-header">
+              <h1 id="doc-title" class="article-title">제목을 불러오는 중...</h1>
+              <div class="article-actions">
+                <button id="edit-button" onclick="goToEditor()">✏️ 수정하기</button>
+                <button id="delete-button" onclick="deleteDoc()">🗑️ 삭제하기</button>
+              </div>
+            </div>
+
+            <div class="toc">
+              <h3 class="toc-title">목차</h3>
+              <ul id="toc" class="toc-list"></ul>
+            </div>
+
+            <div id="preview" class="article-content">
+              <p>문서 내용을 불러오는 중입니다...</p>
+            </div>
+          </article>
+        </div>
       </div>
-      <div id="doc-title">제목을 불러오는 중...</div>
-      <div id="preview"></div>
     </div>
+  </main>
 
-    <script src="js/script.js"></script>
+  <footer>
+    <div class="container">
+      <p class="footer-text">© 2025 구츠위키. 이 사이트는 자유롭게 지식을 공유하는 공간입니다.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/sidebar/js/sidebar.js"></script>
 </body>
-
 </html>
