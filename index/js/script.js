@@ -73,7 +73,7 @@ function deleteDoc() {
     method: 'DELETE'
   }).then(() => {
     alert('문서가 삭제되었습니다.');
-    window.location.href = 'list.html';
+    window.location.href = '/main/main.html';
   }).catch(err => {
     alert('삭제 중 오류가 발생했습니다.');
     console.error(err);
