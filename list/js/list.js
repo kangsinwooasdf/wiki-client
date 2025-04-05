@@ -34,11 +34,11 @@ async function loadList() {
 }
 
 function viewDoc(id) {
-    window.location.href = `index.html?id=${id}`;
+    window.location.href = `../index/index.html?id=${id}`;
 }
 
 function editDoc(id) {
-    window.location.href = `editor.html?id=${id}`;
+    window.location.href = `../editor/editor.html?id=${id}`;
 }
 
 async function deleteDoc(id) {
