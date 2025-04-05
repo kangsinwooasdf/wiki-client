@@ -1,100 +1,90 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>문서 작성 | 구츠위키</title>
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/sidebar/css/sidebar.css" />
+  <title>문서 작성 | 나무위키 스타일</title>
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; padding: 30px; background: #f6f6f6; }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 400px;
+      resize: vertical;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- 상단 고정 컨트롤 -->
-  <div class="top-right-controls">
-    <input type="text" id="search" placeholder="🔍 문서 제목을 입력하세요" />
-    <div class="buttons">
-      <button onclick="goToList()">📚 문서 목록</button>
-      <button onclick="goToEditor()">✏️ 새 문서 작성</button>
-    </div>
-  </div>
+<h1>문서 작성</h1>
+<input type="text" id="title" placeholder="제목을 입력하세요" />
+<textarea id="editor" placeholder="# 내용을 입력하세요..."></textarea><br>
+<button onclick="saveDocument()">💾 저장하고 보기</button>
 
-  <main>
-    <div class="container">
-      <aside class="sidebar" id="sidebar-container"></aside>
+<script>
+  const baseURL = 'https://wiki-b.glitch.me';
+  const params = new URLSearchParams(window.location.search);
+  const docId = params.get('id');
 
-      <div class="main-grid">
-        <div class="content">
-          <article class="article-container">
-            <div class="article-header">
-              <h1 class="article-title">📝 문서 작성</h1>
-            </div>
+  // 수정 모드: 기존 제목 + 내용 불러오기
+  if (docId) {
+    fetch(`${baseURL}/documents/${docId}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('title').value = data.title || '';
+        document.getElementById('editor').value = data.content || '';
+      })
+      .catch(err => {
+        alert('문서를 불러오는 데 실패했습니다.');
+        console.error(err);
+      });
+  }
 
-            <div class="article-content">
-              <input type="text" id="title" placeholder="제목을 입력하세요" class="article-text" />
-              <textarea id="editor" placeholder="# 내용을 입력하세요..." class="article-text" style="height: 400px;"></textarea>
-              <button class="action-button" onclick="saveDocument()">💾 저장하고 보기</button>
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-  </main>
+  async function saveDocument() {
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('editor').value;
 
-  <footer>
-    <div class="container">
-      <p class="footer-text">© 2025 구츠위키. 자유롭게 작성하고 공유하는 지식의 공간입니다.</p>
-    </div>
-  </footer>
+    try {
+      let response, data;
 
-  <script src="/js/main.js"></script>
-  <script src="/sidebar/js/sidebar.js"></script>
-  <script>
-    const baseURL = 'https://wiki-b.glitch.me';
-    const params = new URLSearchParams(window.location.search);
-    const docId = params.get('id');
-
-    if (docId) {
-      fetch(`${baseURL}/documents/${docId}`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('title').value = data.title || '';
-          document.getElementById('editor').value = data.content || '';
-        })
-        .catch(err => {
-          alert('문서를 불러오는 데 실패했습니다.');
-          console.error(err);
+      if (docId) {
+        // 문서 수정
+        response = await fetch(`${baseURL}/documents/${docId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, content })
         });
-    }
-
-    async function saveDocument() {
-      const title = document.getElementById('title').value;
-      const content = document.getElementById('editor').value;
-
-      try {
-        let response, data;
-
-        if (docId) {
-          response = await fetch(`${baseURL}/documents/${docId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, content })
-          });
-          data = { id: docId };
-        } else {
-          response = await fetch(`${baseURL}/documents`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, content })
-          });
-          data = await response.json();
-        }
-
-        window.location.href = `/index/index.html?id=${data.id}`;
-      } catch (error) {
-        alert('문서를 저장하는 데 실패했습니다.');
-        console.error(error);
+        data = { id: docId };
+      } else {
+        // 새 문서 작성
+        response = await fetch(`${baseURL}/documents`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, content })
+        });
+        data = await response.json();
       }
+
+      window.location.href = `/index/index.html?id=${data.id}`;
+    } catch (error) {
+      alert('문서를 저장하는 데 실패했습니다.');
+      console.error(error);
     }
-  </script>
+  }
+</script>
+
 </body>
+
 </html>
