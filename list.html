@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>문서 목록</title>
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; padding: 30px; background: #f4f4f4; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+    th { background: #eee; }
+    button {
+      margin-right: 6px;
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>문서 목록</h1>
+<table>
+  <thead>
+    <tr>
+      <th>제목</th>
+      <th>동작</th>
+    </tr>
+  </thead>
+  <tbody id="doc-list"></tbody>
+</table>
+
+<script>
+  const baseURL = 'https://wiki-b.glitch.me';
+
+  async function loadList() {
+    const res = await fetch(`${baseURL}/documents`);
+    const docs = await res.json();
+    const tbody = document.getElementById('doc-list');
+    tbody.innerHTML = '';
+
+    Object.entries(docs).forEach(([id, doc]) => {
+      const tr = document.createElement('tr');
+
+      const titleCell = document.createElement('td');
+      titleCell.textContent = doc.title || '(제목 없음)';
+
+      const actionCell = document.createElement('td');
+      actionCell.innerHTML = `
+        <button onclick="viewDoc('${id}')">보기</button>
+        <button onclick="editDoc('${id}')">수정</button>
+        <button onclick="deleteDoc('${id}')">삭제</button>
+      `;
+
+      tr.appendChild(titleCell);
+      tr.appendChild(actionCell);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function viewDoc(id) {
+    window.location.href = `viewer.html?id=${id}`;
+  }
+
+  function editDoc(id) {
+    window.location.href = `editor.html?id=${id}`;
+  }
+
+  async function deleteDoc(id) {
+    if (!confirm('정말로 삭제하시겠습니까?')) return;
+    await fetch(`${baseURL}/documents/${id}`, { method: 'DELETE' });
+    alert('삭제되었습니다.');
+    loadList();
+  }
+
+  loadList();
+</script>
+
+</body>
+</html>
