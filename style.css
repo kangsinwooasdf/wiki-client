@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+#sidebar {
+    width: 250px;
+    background-color: #eeeeee;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+#sidebar h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #999;
+    padding-bottom: 5px;
+}
+
+#sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#sidebar ul li {
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+#content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+h1,
+h2,
+h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#edit-button,
+#delete-button,
+#list-button {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 8px 16px;
+    font-size: 15px;
+    background-color: #1f5180;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#delete-button {
+    background-color: #a02020;
+}
+
+#edit-button:hover {
+    background-color: #17406a;
+}
+
+#delete-button:hover {
+    background-color: #801010;
+}
+
+#doc-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+#preview img {
+    max-width: 100%;
+    height: auto;
+}

@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
-  <title>나무위키 스타일</title>
-  <meta http-equiv="refresh" content="0; url=viewer.html">
+  <title>문서 보기 | 나무위키 스타일</title>
+  <meta rel="stylesheet" href="style.css;">
 </head>
+
 <body>
-  <p>문서 보기 페이지로 이동 중...</p>
+
+  <div id="sidebar">
+    <h2>목차</h2>
+    <ul id="toc"></ul>
+  </div>
+
+
+  <div id="content">
+    <div id="content">
+      <div>
+        <button id="edit-button" onclick="goToEditor()">✏️ 수정하기</button>
+        <button id="delete-button" onclick="deleteDoc()">🗑️ 삭제하기</button>
+        <button id="list-button" onclick="goToList()">📚 목록으로</button>
+      </div>
+      <div id="doc-title">제목을 불러오는 중...</div>
+      <div id="preview"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
