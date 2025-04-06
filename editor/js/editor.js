@@ -22,8 +22,8 @@ async function loadDocument() {
         document.getElementById('editor').textContent = data.content || '';
         updateLineNumbers();
     } catch (err) {
-        alert('문서를 불러오는 데 실패했습니다.');
-        console.error(err);
+        // alert('문서를 불러오는 데 실패했습니다.');
+        // console.error(err);
     }
 }
 

@@ -36,17 +36,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function renderContent(text) {
-    const formatted = text
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+  function renderContent(rawText) {
+    const footnotes = {};
+    let footnoteIndex = 1;
+  
+    let formatted = rawText
+      .replace(/\[\*([^\s\]]*)\s?(.*?)\]/g, (_, name, content) => {
+        if (!name) {
+          const id = `fn-${footnoteIndex}`;
+          footnotes[id] = content;
+          return `<sup id="ref-${id}" title="${content}"><a href="#note-${id}">[${footnoteIndex++}]</a></sup>`;
+        } else if (content) {
+          footnotes[name] = content;
+          return `<sup id="ref-${name}" title="${content}"><a href="#note-${name}">[${name}]</a></sup>`;
+        } else {
+          const suffix = Object.values(footnotes).filter((_, i) => i.startsWith?.(name)).length + 1;
+          const reuseContent = footnotes[name] || '';
+          return `<sup id="ref-${name}-${suffix}" title="${reuseContent}"><a href="#note-${name}">[${name}]</a></sup>`;
+        }
+      })
+      .replace(/'''(.*?)'''/g, '<b>$1</b>')
+      .replace(/''(.*?)''/g, '<i>$1</i>')
+      .replace(/__(.*?)__/g, '<u>$1</u>')
+      .replace(/~~(.*?)~~/g, '<del>$1</del>')
+      .replace(/--(.*?)--/g, '<del>$1</del>')
+      .replace(/\^\^(.*?)\^\^/g, '<sup>$1</sup>')
+      .replace(/,,(.*?),,/g, '<sub>$1</sub>')
+      .replace(/{{{\+(\d)\s(.*?)}}}/g, (_, size, text) => `<span style="font-size: ${1 + size * 0.15}em">${text}</span>`)
+      .replace(/{{{-(\d)\s(.*?)}}}/g, (_, size, text) => `<span style="font-size: ${1 - size * 0.15}em">${text}</span>`)
+      .replace(/{{{#([0-9a-fA-F]{3,6})(?:,[0-9a-fA-F]{3,6})?\s(.*?)}}}/g, '<span style="color: #$1">$2</span>')
+      .replace(/{{{\[\[(.*?)\]\]}}}/g, '<code>[$1]</code>')
+      .replace(/\[\[(.*?)\|(.*?)\]\]/g, '<a href="#">$2</a>')
+      .replace(/\[\[(.*?)\]\]/g, '<a href="#">$1</a>')
+      .replace(/^&gt;(.*)/gm, '<blockquote>$1</blockquote>')
+      .replace(/<br>(-{4,9})<br>/g, '<hr>')
+      .replace(/====== (.*?) ======/g, '<h6>$1</h6><hr>')
+      .replace(/===== (.*?) =====/g, '<h5>$1</h5><hr>')
+      .replace(/==== (.*?) ====/g, '<h4>$1</h4><hr>')
+      .replace(/=== (.*?) ===/g, '<h3>$1</h3><hr>')
+      .replace(/== (.*?) ==/g, '<h2>$1</h2><hr>')
+      .replace(/(?:<br>)?\* (.*?)(?=<br>|$)/g, '<ul><li>$1</li></ul>')
+      .replace(/(?:<br>)?1\. (.*?)(?=<br>|$)/g, '<ol><li>$1</li></ol>')
+      .replace(/<\/ul><ul>/g, '')
+      .replace(/<\/ol><ol>/g, '')
+      .replace(/{{{([+-][1-5])\s(.*?)}}}/g, (_, size, text) => {
+        const step = parseInt(size);
+        const fontSize = (1 + step * 0.15).toFixed(5);
+        return `<span style="font-size: ${fontSize}em">${text}</span>`;
+      })
       .replace(/\n/g, '<br>');
-
-    preview.innerHTML = formatted;
-
+  
+    const footnoteHtml = `
+      <div id="footnotes">
+        <ol>
+          ${Object.entries(footnotes).map(([id, content]) =>
+      `<li id="note-${id}"><a href="#ref-${id}">[${isNaN(id) ? id : footnoteIndex++}]</a> ${content}</li>`).join('\n')}
+        </ol>
+      </div>
+    `;
+  
+    if (formatted.includes('[각주]') || formatted.includes('[footnote]')) {
+      formatted = formatted.replace(/\[(각주|footnote)\]/g, footnoteHtml);
+    } else {
+      formatted += '<br>' + footnoteHtml;
+    }
+  
+    // 최종 적용
+    const preview = document.getElementById('preview') || document.getElementById('preview-content');
+    if (preview) {
+      preview.innerHTML = formatted;
+    } else {
+      console.warn('❗ preview 영역을 찾을 수 없습니다.');
+    }
   }
 
   function formatDate(isoString) {
