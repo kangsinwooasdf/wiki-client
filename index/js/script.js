@@ -46,29 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/\n/g, '<br>');
 
     preview.innerHTML = formatted;
-    generateTOC();
-  }
 
-  function generateTOC() {
-    toc.innerHTML = '';
-    const headings = preview.querySelectorAll('h1, h2, h3');
-
-    headings.forEach((heading, index) => {
-      const id = `section-${index}`;
-      heading.id = id;
-
-      const li = document.createElement('li');
-      li.textContent = heading.textContent;
-      li.style.marginLeft =
-        heading.tagName === 'H2' ? '10px' :
-        heading.tagName === 'H3' ? '20px' : '0';
-
-      li.onclick = () => {
-        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-      };
-
-      toc.appendChild(li);
-    });
   }
 
   function formatDate(isoString) {
@@ -83,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.goToEditor = function () {
     if (currentId) {
-      window.location.href = `/editor//editor/editor.html?id=${currentId}`;
+      window.location.href = `/editor/editor.html?id=${currentId}`;
     } else {
       window.location.href = '/editor/editor.html';
     }
