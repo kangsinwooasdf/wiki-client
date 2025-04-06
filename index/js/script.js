@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.goToEditor = function () {
     if (currentId) {
-      window.location.href = `/editor/editor.html?id=${currentId}`;
+      window.location.href = `/editor//editor/editor.html?id=${currentId}`;
     } else {
       window.location.href = '/editor/editor.html';
     }
