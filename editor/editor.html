@@ -8,19 +8,36 @@
 </head>
 
 <body>
-
   <h1>문서 작성</h1>
-  <input type="text" id="title" placeholder="제목을 입력하세요" />
-
-  <div id="editor-container">
-    <div id="line-numbers">1</div>
-    <div id="editor" contenteditable="true" spellcheck="false"></div>
+  <!-- 탭 버튼 -->
+  <div style="margin-bottom: 10px;">
+    <button onclick="switchTab('edit')">📝 작성하기</button>
+    <button onclick="switchTab('preview')">🔍 미리보기</button>
   </div>
 
-  <br>
-  <button onclick="saveDocument()">💾 저장하고 보기</button>
+  <!-- 작성 화면 -->
+  <div id="editor-section">
+    <input type="text" id="title" placeholder="제목을 입력하세요" />
+    <div id="editor-container">
+      <div id="line-numbers">1</div>
+      <div id="editor" contenteditable="true" spellcheck="false"></div>
+    </div>
+    <br>
+    <button onclick="saveDocument()">💾 저장하고 보기</button>
+  </div>
 
+  <!-- 미리보기 화면 -->
+  <div id="preview-section" style="display: none;">
+    <article class="article-container">
+      <div class="article-header">
+        <h1 id="preview-title" class="article-title"></h1>
+      </div>
 
+      <div id="preview-content" class="article-content">
+        <p>문서를 렌더링 중입니다...</p>
+      </div>
+    </article>
+  </div>
   <script src="js/editor.js"></script>
 </body>
 
