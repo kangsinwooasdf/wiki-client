@@ -104,12 +104,29 @@ function switchTab(tab) {
 function renderPreviewLikeIndex() {
     const title = document.getElementById('title').value;
     const content = document.getElementById('editor').innerHTML;
+    const footnotes = {};
+    let footnoteIndex = 1;
     // 제목 설정
     document.getElementById('preview-title').textContent = title || '(제목 없음)';
-
     // 나무마크 스타일 문법 처리
     let formatted = content
-
+        .replace(/\[\*([^\s\]]*)\s?(.*?)\]/g, (_, name, content) => {
+            if (!name) {
+                // 익명 각주
+                const id = `fn-${footnoteIndex}`;
+                footnotes[id] = content;
+                return `<sup id="ref-${id}" title="${content}"><a href="#note-${id}">[${footnoteIndex++}]</a></sup>`;
+            } else if (content) {
+                // 이름 있는 각주 정의
+                footnotes[name] = content;
+                return `<sup id="ref-${name}" title="${content}"><a href="#note-${name}">[${name}]</a></sup>`;
+            } else {
+                // 이름 각주 재사용
+                const suffix = Object.values(footnotes).filter((_, i) => i.startsWith?.(name)).length + 1;
+                const reuseContent = footnotes[name] || '';
+                return `<sup id="ref-${name}-${suffix}" title="${reuseContent}"><a href="#note-${name}">[${name}]</a></sup>`;
+            }
+        })
         // 굵게 ('''텍스트''')
         .replace(/'''(.*?)'''/g, '<b>$1</b>')
 
@@ -167,7 +184,20 @@ function renderPreviewLikeIndex() {
 
         // 줄바꿈
         .replace(/\n/g, '<br>');
-
+    const footnoteHtml = `
+        <div id="footnotes">
+          <ol>
+            ${Object.entries(footnotes).map(([id, content]) =>
+        `<li id="note-${id}"><a href="#ref-${id}">[${isNaN(id) ? id : footnoteIndex++}]</a> ${content}</li>`
+    ).join('\n')}
+          </ol>
+        </div>
+        `;
+    if (formatted.includes('[각주]') || formatted.includes('[footnote]')) {
+        formatted = formatted.replace(/\[(각주|footnote)\]/g, footnoteHtml);
+    } else {
+        formatted += '<br>' + footnoteHtml;
+    }
     const previewContent = document.getElementById('preview-content');
     previewContent.innerHTML = formatted;
 }
