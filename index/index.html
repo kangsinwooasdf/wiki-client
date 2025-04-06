@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>문서 보기 | 구츠위키</title>
   <link rel="stylesheet" href="/main/css/main.css" />
   <link rel="stylesheet" href="/sidebar/css/sidebar.css" />
+  <link rel="stylesheet" href="/index/css/style.css" />
+  <link rel="stylesheet" href="/footer/css/footer.css" />
 </head>
-<body>
+<body class="index-page">
 
   <!-- 상단 고정 컨트롤 -->
   <div class="top-right-controls">
     <input type="text" id="search" placeholder="🔍 문서 제목을 입력하세요" />
     <div class="buttons">
       <button onclick="goToList()">📚 문서 목록</button>
-      <button onclick="goToEditor()">✏️ 새 문서 작성</button>
     </div>
   </div>
 
   <main>
     <div class="container">
       <aside class="sidebar" id="sidebar-container"></aside>
-
+  
       <div class="main-grid">
         <div class="content">
           <article class="article-container">
             <div class="article-header">
-              <h1 id="doc-title" class="article-title">제목을 불러오는 중...</h1>
+              <h1 id="doc-title" class="article-title">제목</h1>
               <div class="article-actions">
                 <button id="edit-button" onclick="goToEditor()">✏️ 수정하기</button>
                 <button id="delete-button" onclick="deleteDoc()">🗑️ 삭제하기</button>
               </div>
             </div>
-
+  
             <div class="toc">
               <h3 class="toc-title">목차</h3>
               <ul id="toc" class="toc-list"></ul>
@@ -41,20 +42,32 @@
             <div id="preview" class="article-content">
               <p>문서 내용을 불러오는 중입니다...</p>
             </div>
+
+            <div class="article-footer">
+              최근 수정: <span id="last-updated">불러오는 중...</span>
+            </div>
+
           </article>
         </div>
       </div>
     </div>
   </main>
+  <div id="footer-container">
+    <footer>
+      <div class="container">
+        <p class="footer-text">© 2025 구츠위키. 이 사이트는 다방면 목적으로 제작되었습니다.</p>
+        <div class="footer-text">
+          <span class="footer-label">개발자:</span>
+          <a href="https://github.com/BEOBMA" class="footer-text">BEOBMA</a>
+          <a href="https://github.com/kangsinwooasdf" class="footer-text">kangsinwooasdf</a>
+        </div>
+      </div>
+    </footer>
+  </div>
 
-  <footer>
-    <div class="container">
-      <p class="footer-text">© 2025 구츠위키. 이 사이트는 자유롭게 지식을 공유하는 공간입니다.</p>
-    </div>
-  </footer>
-
-  <script src="/js/main.js"></script>
-  <script src="/js/script.js"></script>
+  <script src="/main/js/main.js"></script>
+  <script src="/index/js/script.js"></script>
   <script src="/sidebar/js/sidebar.js"></script>
+  <script src="/footer/footer.js"></script>
 </body>
 </html>
