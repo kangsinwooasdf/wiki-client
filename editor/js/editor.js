@@ -86,3 +86,118 @@ function updateLineNumbers() {
         lineNumberElem.appendChild(lineDiv);
     }
 }
+
+function switchTab(tab) {
+    const editSec = document.getElementById('editor-section');
+    const previewSec = document.getElementById('preview-section');
+
+    if (tab === 'edit') {
+        editSec.style.display = 'block';
+        previewSec.style.display = 'none';
+    } else if (tab === 'preview') {
+        editSec.style.display = 'none';
+        previewSec.style.display = 'block';
+        renderPreviewLikeIndex();
+    }
+}
+
+function renderPreviewLikeIndex() {
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('editor').innerHTML;
+    const footnotes = {};
+    let footnoteIndex = 1;
+    // 제목 설정
+    document.getElementById('preview-title').textContent = title || '(제목 없음)';
+    // 나무마크 스타일 문법 처리
+    let formatted = content
+        .replace(/\[\*([^\s\]]*)\s?(.*?)\]/g, (_, name, content) => {
+            if (!name) {
+                // 익명 각주
+                const id = `fn-${footnoteIndex}`;
+                footnotes[id] = content;
+                return `<sup id="ref-${id}" title="${content}"><a href="#note-${id}">[${footnoteIndex++}]</a></sup>`;
+            } else if (content) {
+                // 이름 있는 각주 정의
+                footnotes[name] = content;
+                return `<sup id="ref-${name}" title="${content}"><a href="#note-${name}">[${name}]</a></sup>`;
+            } else {
+                // 이름 각주 재사용
+                const suffix = Object.values(footnotes).filter((_, i) => i.startsWith?.(name)).length + 1;
+                const reuseContent = footnotes[name] || '';
+                return `<sup id="ref-${name}-${suffix}" title="${reuseContent}"><a href="#note-${name}">[${name}]</a></sup>`;
+            }
+        })
+        // 굵게 ('''텍스트''')
+        .replace(/'''(.*?)'''/g, '<b>$1</b>')
+
+        // 기울임 (''텍스트'')
+        .replace(/''(.*?)''/g, '<i>$1</i>')
+
+        // 밑줄 (__텍스트__)
+        .replace(/__(.*?)__/g, '<u>$1</u>')
+
+        // 취소선 (~~텍스트~~ 또는 --텍스트--)
+        .replace(/~~(.*?)~~/g, '<del>$1</del>')
+        .replace(/--(.*?)--/g, '<del>$1</del>')
+
+        // 위첨자 (^^텍스트^^)
+        .replace(/\^\^(.*?)\^\^/g, '<sup>$1</sup>')
+
+        // 아래첨자 (,,텍스트,,)
+        .replace(/,,(.*?),,/g, '<sub>$1</sub>')
+
+        // 크기 조절 ({{{+1 텍스트}}}, {{{-1 텍스트}}})
+        .replace(/{{{\+(\d)\s(.*?)}}}/g, (_, size, text) => `<span style="font-size: ${1 + size * 0.15}em">${text}</span>`)
+        .replace(/{{{-(\d)\s(.*?)}}}/g, (_, size, text) => `<span style="font-size: ${1 - size * 0.15}em">${text}</span>`)
+
+        // 색상 지정 ({{{#hex 텍스트}}})
+        .replace(/{{{#([0-9a-fA-F]{3,6})(?:,[0-9a-fA-F]{3,6})?\s(.*?)}}}/g, '<span style="color: #$1">$2</span>')
+
+        // 고정폭 텍스트 ({{{[[텍스트]]}}})
+        .replace(/{{{\[\[(.*?)\]\]}}}/g, '<code>[$1]</code>')
+
+        // 하이퍼링크 [[문서명|출력]]
+        .replace(/\[\[(.*?)\|(.*?)\]\]/g, '<a href="#">$2</a>')
+
+        // 하이퍼링크 [[문서명]]
+        .replace(/\[\[(.*?)\]\]/g, '<a href="#">$1</a>')
+
+        // 인용문 (> 텍스트)
+        .replace(/^&gt;(.*)/gm, '<blockquote>$1</blockquote>')
+
+        // 수평줄 (---- 이상)
+        .replace(/<br>(-{4,9})<br>/g, '<hr>')
+        .replace(/====== (.*?) ======/g, '<h6>$1</h6><hr>')
+        .replace(/===== (.*?) =====/g, '<h5>$1</h5><hr>')
+        .replace(/==== (.*?) ====/g, '<h4>$1</h4><hr>')
+        .replace(/=== (.*?) ===/g, '<h3>$1</h3><hr>')
+        .replace(/== (.*?) ==/g, '<h2>$1</h2><hr>')
+        .replace(/(?:<br>)?\* (.*?)(?=<br>|$)/g, '<ul><li>$1</li></ul>')
+        .replace(/(?:<br>)?1\. (.*?)(?=<br>|$)/g, '<ol><li>$1</li></ol>')
+        .replace(/<\/ul><ul>/g, '')
+        .replace(/<\/ol><ol>/g, '')
+        .replace(/{{{([+-][1-5])\s(.*?)}}}/g, (_, size, text) => {
+            const step = parseInt(size);
+            const fontSize = (1 + step * 0.15).toFixed(5);
+            return `<span style="font-size: ${fontSize}em">${text}</span>`;
+        })
+
+        // 줄바꿈
+        .replace(/\n/g, '<br>');
+    const footnoteHtml = `
+        <div id="footnotes">
+          <ol>
+            ${Object.entries(footnotes).map(([id, content]) =>
+        `<li id="note-${id}"><a href="#ref-${id}">[${isNaN(id) ? id : footnoteIndex++}]</a> ${content}</li>`
+    ).join('\n')}
+          </ol>
+        </div>
+        `;
+    if (formatted.includes('[각주]') || formatted.includes('[footnote]')) {
+        formatted = formatted.replace(/\[(각주|footnote)\]/g, footnoteHtml);
+    } else {
+        formatted += '<br>' + footnoteHtml;
+    }
+    const previewContent = document.getElementById('preview-content');
+    previewContent.innerHTML = formatted;
+}
