@@ -398,29 +398,6 @@ a:hover {
     color: #718096;
 }
 
-footer {
-    background-color: white;
-    border-top: 1px solid #e2e8f0;
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.footer-text {
-    font-size: 0.875rem;
-    color: #718096;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-.footer-link {
-    font-size: 0.875rem;
-}
-
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .top-right-controls {

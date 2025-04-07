@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const baseURL = 'https://wiki-b.glitch.me';
   const preview = document.getElementById('preview');
-  const toc = document.getElementById('toc');
   const titleElement = document.getElementById('doc-title');
   let currentId = null;
 
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = getDocIdFromURL();
     currentId = id;
     if (!id) {
-      preview.innerHTML = "<p>문서 ID가 없습니다.</p>";
+      preview.innerTest = "<p>문서 ID가 없습니다.</p>";
       return;
     }
   
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastUpdated.textContent = formatDate(data.updatedAt);
       }
     } catch (e) {
-      preview.innerHTML = "<p>문서를 불러오는 데 실패했습니다.</p>";
+      preview.innerHTML = "<p>문서를 불러오는 데 실패햇다다.</p>";
       console.error("문서 불러오기 오류:", e);
     }
   }
